@@ -1,7 +1,10 @@
 package com.example.shopapp.controller;
 
 import com.example.shopapp.dtos.CategoriDTO;
+import com.example.shopapp.models.Category;
+import com.example.shopapp.servies.ICategoryService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -14,10 +17,13 @@ import java.util.List;
 @RequestMapping("${api.prefix}/categories")
 //@Validated
 public class CategoryController {
+    @Autowired
+    private ICategoryService iCategoryService;
     @GetMapping("")
     public ResponseEntity<?> getAllCategories(@RequestParam("page") int page,
                                               @RequestParam("limit") int limit){
-        return  ResponseEntity.ok(String.format("Page = %d, limit = %d", page, limit));
+       List<Category> categories =  iCategoryService.getAllCategories();
+        return  ResponseEntity.ok(categories);
     }
     @PostMapping("")
     // Nếu tham số truyền vào là 1 object thì sao? ==> Data Transfer Object = Request Object
@@ -30,14 +36,18 @@ public class CategoryController {
                     .toList();
             return ResponseEntity.badRequest().body(errorMessages);
         }
-        return  ResponseEntity.ok("Them moi "+ categoriDTO);
+        iCategoryService.createCategory(categoriDTO);
+        return  ResponseEntity.ok("Created Category Successfully!");
     }
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateCategories(@PathVariable Long id){
-        return  ResponseEntity.ok("Cap nhat id = "+ id);
+    public ResponseEntity<?> updateCategories(@PathVariable Long id,
+                                              @Valid @RequestBody CategoriDTO categoriDTO){
+        iCategoryService.updateCategory(id,categoriDTO);
+        return  ResponseEntity.ok("Update Category Successfully!");
     }
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCategories(@PathVariable Long id){
+        iCategoryService.deleteCategory(id);
         return  ResponseEntity.ok("Xoa id = "+ id);
     }
 }

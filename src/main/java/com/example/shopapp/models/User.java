@@ -2,6 +2,8 @@ package com.example.shopapp.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
@@ -9,6 +11,8 @@ import java.util.Date;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Data
 @Table(name = "users")
 public class User extends BaseEntity{
     @Id
@@ -20,7 +24,7 @@ public class User extends BaseEntity{
     private String phoneNumber;
     @Column(name = "address", length = 200)
     private String address;
-    @Column(name = "address", length = 200, nullable = false)
+    @Column(name = "password", length = 200, nullable = false)
     private String password;
     private boolean active;
     @Column(name = "date_of_birth")
