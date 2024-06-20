@@ -4,7 +4,6 @@ import com.example.shopapp.dtos.CategoriDTO;
 import com.example.shopapp.models.Category;
 
 import java.util.List;
-
 public interface ICategoryService {
     Category createCategory(CategoriDTO categoriDTO);
     Category getCategoryById(long id);

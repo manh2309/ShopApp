@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -15,7 +15,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Builder
 @Table(name = "orders")
-public class Order {
+public class Order extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -30,9 +30,9 @@ public class Order {
     private String address;
     private String note;
     @Column(name = "order_date")
-    private LocalDateTime orderDate;
+    private Date orderDate;
     @Column(name = "status")
-    private boolean status;
+    private String status;
     @Column(name = "total_money")
     private Float totalMoney;
     @Column(name = "shipping_method")
@@ -40,12 +40,12 @@ public class Order {
     @Column(name = "shipping_address")
     private String shippingAddress;
     @Column(name = "shipping_date")
-    private Date shippingDate;
+    private LocalDate shippingDate;
     @Column(name = "tracking_number")
     private String trackingNumber;
     @Column(name = "payment_method")
     private String paymentMethod;
-
+    @Column(name = "is_active")
     private  Boolean active;
     @ManyToOne
     @JoinColumn(name = "user_id")

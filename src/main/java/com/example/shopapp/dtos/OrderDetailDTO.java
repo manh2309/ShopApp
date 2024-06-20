@@ -17,12 +17,12 @@ public class OrderDetailDTO {
     @Min(value = 1, message = "product id phai lon hon 0")
     private Long productId;
     @Min(value = 0, message = "so tien phai >= 0")
-    private Long price;
+    private Float price;
     @JsonProperty("number_of_products")
     @Min(value = 1, message = "so luong phai lon hon 0")
-    private Long numberOfProducts;
+    private int numberOfProducts;
     @JsonProperty("total_money")
     @Min(value = 0, message = "so tien phai >= 0")
-    private Long totalMoney;
+    private Float totalMoney;
     private String color;
 }

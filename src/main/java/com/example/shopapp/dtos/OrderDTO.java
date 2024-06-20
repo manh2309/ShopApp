@@ -8,6 +8,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,4 +36,6 @@ public class OrderDTO {
     private String shippingAddress;
     @JsonProperty("payment_method")
     private String paymentMethod;
+    @JsonProperty("shipping_date")
+    private LocalDate shippingDate;
 }
