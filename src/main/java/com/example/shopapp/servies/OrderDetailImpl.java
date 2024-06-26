@@ -1,6 +1,5 @@
 package com.example.shopapp.servies;
 
-import com.example.shopapp.dtos.OrderDTO;
 import com.example.shopapp.dtos.OrderDetailDTO;
 import com.example.shopapp.exceptions.DataNotFoundException;
 import com.example.shopapp.models.Order;
@@ -9,7 +8,6 @@ import com.example.shopapp.models.Product;
 import com.example.shopapp.repository.OrderDetailRepository;
 import com.example.shopapp.repository.OrderRepository;
 import com.example.shopapp.repository.ProductRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,8 +21,7 @@ public class OrderDetailImpl implements IOrderDetailService{
     private ProductRepository productRepository;
     @Autowired
     private OrderRepository orderRepository;
-    @Autowired
-    private ModelMapper modelMapper;
+
     @Override
     public OrderDetail createOrderDetail(OrderDetailDTO orderDetailDTO) throws Exception {
         //Kiem tra xem orderId va productId co trong db khong
@@ -54,8 +51,8 @@ public class OrderDetailImpl implements IOrderDetailService{
     @Override
     public OrderDetail updateOrderDetail(Long id, OrderDetailDTO orderDetailDTO) throws Exception {
         //Kiem tra xem orderId va productId co trong db khong
-        OrderDetail exitstingOrderDetail = getOrderDetail(id);
-        if(exitstingOrderDetail != null) {
+        OrderDetail exitstingOrderDetail = orderDetailRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Can not find order detail with id" + id));
             Order order = orderRepository.findById(orderDetailDTO.getOrderId())
                     .orElseThrow(() -> new DataNotFoundException("Cannot find order with id:" + orderDetailDTO.getOrderId()));
             Product product = productRepository.findById(orderDetailDTO.getProductId())
@@ -68,8 +65,6 @@ public class OrderDetailImpl implements IOrderDetailService{
             exitstingOrderDetail.setColor(orderDetailDTO.getColor());
             orderDetailRepository.save(exitstingOrderDetail);
             return exitstingOrderDetail;
-        }
-        return null;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.example.shopapp.controller;
 
 import com.example.shopapp.dtos.OrderDetailDTO;
 import com.example.shopapp.models.OrderDetail;
+import com.example.shopapp.responses.OrderDetailResponse;
 import com.example.shopapp.servies.IOrderDetailService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("${api.prefix}/order_detail")
@@ -30,7 +32,7 @@ public class OrderDetailController {
                 return ResponseEntity.badRequest().body(errorMessages);
             }
             OrderDetail orderDetail = detailService.createOrderDetail(orderDetailDTO);
-            return ResponseEntity.ok(orderDetail);
+            return ResponseEntity.ok(OrderDetailResponse.fromOrderDetail(orderDetail));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -41,7 +43,7 @@ public class OrderDetailController {
             @Valid @PathVariable("id") Long id){
         try {
             OrderDetail orderDetail = detailService.getOrderDetail(id);
-            return ResponseEntity.ok(orderDetail);
+            return ResponseEntity.ok(OrderDetailResponse.fromOrderDetail(orderDetail));
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
@@ -51,7 +53,8 @@ public class OrderDetailController {
             @Valid @PathVariable("orderId") Long orderId){
         try {
             List<OrderDetail> orderDetail = detailService.findAllByOrderId(orderId);
-            return ResponseEntity.ok(orderDetail);
+            List<OrderDetailResponse> detailResponses = orderDetail.stream().map(OrderDetailResponse::fromOrderDetail).collect(Collectors.toList());
+            return ResponseEntity.ok(detailResponses);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
