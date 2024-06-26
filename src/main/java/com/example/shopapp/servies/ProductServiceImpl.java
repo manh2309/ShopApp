@@ -42,6 +42,7 @@ public class ProductServiceImpl implements IProductService{
 
     @Override
     public Product getProductById(long id) throws DataNotFoundException {
+
         Product product = productRepository.findById(id).
         orElseThrow(() -> new DataNotFoundException("Cannot found id"));
         return product;

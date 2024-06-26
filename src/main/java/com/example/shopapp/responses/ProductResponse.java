@@ -1,5 +1,4 @@
 package com.example.shopapp.responses;
-
 import com.example.shopapp.models.Product;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,6 @@ public class ProductResponse extends BaseResponse{
     private String description;
     @JsonProperty("category_id")
     private Long categoryId;
-
     public static ProductResponse fromProduct(Product product){
         ProductResponse productResponse = ProductResponse.builder()
                 .id(product.getId())
